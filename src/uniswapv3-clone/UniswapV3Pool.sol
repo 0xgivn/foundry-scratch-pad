@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.23;
 
-import "@openzeppelin/";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./CommonStructs.sol";
+import "./IUniswapV3MintCallback.sol";
 
 contract UniswapV3Pool {
   using Tick for mapping(int24 => Tick.Info);
@@ -51,10 +52,10 @@ contract UniswapV3Pool {
       lowerTick < MIN_TICK ||
       upperTick > MAX_TICK
     ) {
-      revert InvalidTickRange();
+      revert Errors.InvalidTickRange();
     }
 
-    if (amount == 0) revert ZeroLiquidity();
+    if (amount == 0) revert Errors.ZeroLiquidity();
 
     ticks.update(lowerTick, amount);
     ticks.update(upperTick, amount);
@@ -76,19 +77,20 @@ contract UniswapV3Pool {
     if (amount1 > 0) balance1Before = balance1();
     IUniswapV3MintCallback(msg.sender).uniswapV3MintCallback(
         amount0,
-        amount1
+        amount1,
+        "0x"
     );
     if (amount0 > 0 && balance0Before + amount0 > balance0())
-        revert InsufficientInputAmount();
+        revert Errors.InsufficientInputAmount();
     if (amount1 > 0 && balance1Before + amount1 > balance1())
-        revert InsufficientInputAmount();
+        revert Errors.InsufficientInputAmount();
   }
 
-  function balance0() internal returns (uint256 balance) {
-    IERC20(token0).balanceOf(address(this));
+  function balance0() internal view returns (uint256 balance) {
+    balance = IERC20(token0).balanceOf(address(this));
   }
 
-  function balance1() internal returns (uint256 balance) {
-    IERC20(token1).balanceOf(address(this));
+  function balance1() internal view returns (uint256 balance) {
+    balance = IERC20(token1).balanceOf(address(this));
   }
 }

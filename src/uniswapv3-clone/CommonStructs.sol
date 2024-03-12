@@ -35,4 +35,16 @@ library Position {
       keccak256(abi.encodePacked(owner, lowerTick, upperTick))
     ];
   }
+
+  function update(Info storage self, uint128 liqduidityDelta) internal {
+    uint128 liquidityBefore = self.liquidity;
+    uint128 liquidityAfter = liquidityBefore + liqduidityDelta;
+    self.liquidity = liquidityAfter;
+  }
+}
+
+library Errors {
+  error InvalidTickRange();
+  error InsufficientInputAmount();
+  error ZeroLiquidity();
 }
