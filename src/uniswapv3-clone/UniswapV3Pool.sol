@@ -4,8 +4,9 @@ pragma solidity ^0.8.23;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./CommonStructs.sol";
 import "./IUniswapV3MintCallback.sol";
+import "./IUniswapV3Pool.sol";
 
-contract UniswapV3Pool {
+contract UniswapV3Pool is IUniswapV3Pool {
   using Tick for mapping(int24 => Tick.Info);
   using Position for mapping(bytes32 => Position.Info);
   using Position for Position.Info;
@@ -76,14 +77,16 @@ contract UniswapV3Pool {
     if (amount0 > 0) balance0Before = balance0();
     if (amount1 > 0) balance1Before = balance1();
     IUniswapV3MintCallback(msg.sender).uniswapV3MintCallback(
-        amount0,
-        amount1,
-        "0x"
+      amount0,
+      amount1,
+      "0x"
     );
     if (amount0 > 0 && balance0Before + amount0 > balance0())
-        revert Errors.InsufficientInputAmount();
+      revert Errors.InsufficientInputAmount();
     if (amount1 > 0 && balance1Before + amount1 > balance1())
-        revert Errors.InsufficientInputAmount();
+      revert Errors.InsufficientInputAmount();
+
+    emit Mint(msg.sender, owner, lowerTick, upperTick, amount, amount0, amount1);
   }
 
   function balance0() internal view returns (uint256 balance) {
