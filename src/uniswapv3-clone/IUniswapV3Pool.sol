@@ -2,6 +2,12 @@
 pragma solidity ^0.8.23;
 
 interface IUniswapV3Pool {
+  struct CallbackData {
+    address token0;
+    address token1;
+    address payer;
+  }
+
   /// @notice Emitted when liquidity is minted for a given position
   /// @param sender The address that minted the liquidity
   /// @param owner The owner of the position and recipient of any minted liquidity

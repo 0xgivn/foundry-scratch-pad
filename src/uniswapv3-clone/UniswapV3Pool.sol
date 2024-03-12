@@ -47,7 +47,8 @@ contract UniswapV3Pool is IUniswapV3Pool {
     address owner,
     int24 lowerTick,
     int24 upperTick,
-    uint128 amount
+    uint128 amount,
+    bytes calldata data
   ) external returns (uint256 amount0, uint256 amount1) {
     if (
       lowerTick >= upperTick ||
@@ -77,11 +78,9 @@ contract UniswapV3Pool is IUniswapV3Pool {
     uint256 balance1Before;
     if (amount0 > 0) balance0Before = balance0();
     if (amount1 > 0) balance1Before = balance1();
-    IUniswapV3MintCallback(msg.sender).uniswapV3MintCallback(
-      amount0,
-      amount1,
-      "0x"
-    );
+    
+    IUniswapV3MintCallback(msg.sender).uniswapV3MintCallback(amount0, amount1, data);
+
     if (amount0 > 0 && balance0Before + amount0 > balance0())
       revert Errors.InsufficientInputAmount();
     if (amount1 > 0 && balance1Before + amount1 > balance1())
@@ -90,7 +89,7 @@ contract UniswapV3Pool is IUniswapV3Pool {
     emit Mint(msg.sender, owner, lowerTick, upperTick, amount, amount0, amount1);
   }
 
-  function swap(address recipient) public returns (int256 amount0, int256 amount1) {
+  function swap(address recipient, bytes calldata data) public returns (int256 amount0, int256 amount1) {
     // Hardcoding values to make things simple, swapping 42 USDC for ETH
     int24 nextTick = 85184;
     uint160 nextPrice = 5604469350942327889444743441197;
@@ -102,11 +101,7 @@ contract UniswapV3Pool is IUniswapV3Pool {
     IERC20(token0).transfer(recipient, uint256(-amount0));
 
     uint256 balance1Before = balance1();
-    IUniswapV3SwapCallback(msg.sender).uniswapV3SwapCallback(
-      amount0,
-      amount1,
-      "0x"
-    );
+    IUniswapV3SwapCallback(msg.sender).uniswapV3SwapCallback(amount0, amount1, data);
 
     if (balance1Before + uint256(amount1) < balance1()) {
       revert Errors.InsufficientInputAmount();
