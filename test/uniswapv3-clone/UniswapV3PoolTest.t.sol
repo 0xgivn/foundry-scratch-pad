@@ -4,9 +4,10 @@ pragma solidity ^0.8.23;
 import "forge-std/Test.sol";
 import "@test/MockERC20.sol";
 import "@src/uniswapv3-clone/UniswapV3Pool.sol";
-import "@src/uniswapv3-clone/IUniswapV3MintCallback.sol";
+import "@src/uniswapv3-clone/callback/IUniswapV3MintCallback.sol";
+import "@src/uniswapv3-clone/callback/IUniswapV3SwapCallback.sol";
 
-contract UniswapV3PoolTest is Test, IUniswapV3MintCallback {
+contract UniswapV3PoolTest is Test, IUniswapV3MintCallback, IUniswapV3SwapCallback {
 
     MockERC20 token0;
     MockERC20 token1;
@@ -73,6 +74,30 @@ contract UniswapV3PoolTest is Test, IUniswapV3MintCallback {
       assertEq(pool.liquidity(), 1517882343751509868544, "invalid current liquidity");
     }
 
+    function testSwapBuyEth() public {
+      TestCaseParams memory params = TestCaseParams({
+        wethBalance: 1 ether,
+        usdcBalance: 5000 ether,
+        currentTick: 85176,
+        lowerTick: 84222,
+        upperTick: 86129,
+        liquidity: 1517882343751509868544,
+        currentSqrtP: 5602277097478614198912276234240,
+        shouldTransferInCallback: true,
+        mintLiqudity: true
+      });
+
+      (uint256 poolBalance0, uint256 poolBalance1) = setupTestCase(params);
+      token1.mint(address(this), 42 ether);
+      int256 userBalance0Before = int256(token1.balanceOf(address(this)));
+
+      (int256 amount0Delta, int256 amount1Delta) = pool.swap(address(this));
+      assertEq(amount0Delta, -0.008396714242162444 ether, "invalid ETH out");
+      assertEq(amount1Delta, 42 ether, "invalid USDC in");
+      assertEq(token0.balanceOf(address(this)), uint256(userBalance0Before - amount0Delta), "invalid user ETH balance");
+      assertEq(token1.balanceOf(address(this)), 0, "invalid user USDC balance");
+    }
+
     function setupTestCase(TestCaseParams memory params) internal 
     returns (uint256 poolBalance0, uint256 poolBalance1) {
       token0.mint(address(this), params.wethBalance);
@@ -105,6 +130,16 @@ contract UniswapV3PoolTest is Test, IUniswapV3MintCallback {
       if (shouldTransferInCallback) {
         token0.transfer(msg.sender, amount0Owed);
         token1.transfer(msg.sender, amount1Owed);
+      }
+    }
+
+    function uniswapV3SwapCallback(int256 amount0Delta, int256 amount1Delta, bytes calldata) external {
+      if (amount0Delta > 0) {
+        token0.transfer(msg.sender, uint256(amount0Delta));
+      }
+
+      if (amount1Delta > 0) {
+        token1.transfer(msg.sender, uint256(amount1Delta));
       }
     }
 }
