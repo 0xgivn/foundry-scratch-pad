@@ -10,5 +10,7 @@ This repo contains various code snippets and concepts. It's purpose is to try th
 # Tests
 
 To run only a subset of the tests you can use the following commands:
-`forge test --mp test/uniswapv3-clone/*` if you want to run a whole folder
-`forge test --mc SolidityLabelsTest` if you want to run a specific contract
+
+`forge test --mp test/uniswapv3-clone/*` run only tests in a folder
+
+`forge test --mc SolidityLabelsTest` run a specific test contract
