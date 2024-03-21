@@ -1,0 +1,19 @@
+{
+  // editor
+  "editor.formatOnSave": false,
+  "editor.formatOnPaste": false,
+  // misc
+  "terminal.integrated.scrollback": 5000,
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/package-lock.json": true
+  },
+  // solidity
+  "solidity.defaultCompiler": "remote",
+  "[solidity]": {
+    "editor.defaultFormatter": "JuanBlanco.solidity"
+  },
+  "solidity.compileUsingRemoteVersion": "v0.8.24+commit.e11b9ed9",
+  "solidity-metrics.file.exclusions.glob": "{**/node_modules,**/lib*,**/test*,**/cache,**/out/}",
+  "solidity.formatter": "forge"
+}
