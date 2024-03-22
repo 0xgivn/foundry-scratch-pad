@@ -6,6 +6,8 @@
 // --bin-runtime - gives just the runtime code!
 
 // send calldata -> function dispatch -> function
+#define function updateHorseNumber(uint256) nonpayable returns()
+#define function readNumberOfHorses() view returns()
 
 #define macro MAIN() = takes(0) returns(0) {
   0x00         // [0]
@@ -18,13 +20,13 @@
   // if f_selector == updateHorseNumber(cdfead2e) -> jump there
   // if f_selector == readNumberOfHorses(e026c017) -> jump there
   
-  dup1       // [funcSelector, funcSelector]
-  0xcdfead2e // [0xcdfead2e, funcSelector, funcSelector]
+  dup1                          // [funcSelector, funcSelector]
+  __FUNC_SIG(updateHorseNumber) // [0xcdfead2e, funcSelector, funcSelector]
   eq         // [1_if_true_else_0, funcSelector] if equal, push 1, else push 0
   updateJump // [updateHorseNumberProgramCounter, true/false, funcSelector]
   jumpi      // [funcSelector] if we don't jump we still have funcSelector we duplicated on L21
 
-  0xe026c017 // [0xe026c017, funcSelector]
+  __FUNC_SIG(readNumberOfHorses) // [0xe026c017, funcSelector]
   eq         // [true_if_selector_matches]
   readJump   // [readNumberOfHorsesProgramCounter, true/false]
   jumpi      // []
@@ -39,7 +41,9 @@
 }
 
 #define macro SET_NUMBER_OF_HORSES() = takes(0) returns(0) {
-  
+  // 1. Give a storage slot
+  // 2. Get value to store from calldata
+  // 3. call sstore opcode
 }
 
 #define macro GET_NUMBER_OF_HORSES() = takes(0) returns(0) {
