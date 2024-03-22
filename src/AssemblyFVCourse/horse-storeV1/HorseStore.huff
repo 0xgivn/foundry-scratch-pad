@@ -1,0 +1,47 @@
+
+// to compile run: huffc src/AssemblyFVCourse/horse-storeV1/HorseStore.huff -b 
+
+// You can run bytecode here - https://www.evm.codes/playground?fork=cancun
+// Be careful to put the executable code and not the contract creation part
+// --bin-runtime - gives just the runtime code!
+
+// send calldata -> function dispatch -> function
+
+#define macro MAIN() = takes(0) returns(0) {
+  0x00         // [0]
+  calldataload // [calldata]
+  // How to get the function selector from the calldata?
+  0xe0        // [0xe0, calldata] - push the number of bits we want to remove from calldata
+  shr         // [funcSelector]
+
+  // Jump to function bytecode associated with the selector
+  // if f_selector == updateHorseNumber(cdfead2e) -> jump there
+  // if f_selector == readNumberOfHorses(e026c017) -> jump there
+  
+  dup1       // [funcSelector, funcSelector]
+  0xcdfead2e // [0xcdfead2e, funcSelector, funcSelector]
+  eq         // [1_if_true_else_0, funcSelector] if equal, push 1, else push 0
+  updateJump // [updateHorseNumberProgramCounter, true/false, funcSelector]
+  jumpi      // [funcSelector] if we don't jump we still have funcSelector we duplicated on L21
+
+  0xe026c017 // [0xe026c017, funcSelector]
+  eq         // [true_if_selector_matches]
+  readJump   // [readNumberOfHorsesProgramCounter, true/false]
+  jumpi      // []
+
+  0x00 0x00  // [0x00, 0x00] revert arguments
+  revert // if we don't match any function selector, revert
+
+  updateJump:
+    SET_NUMBER_OF_HORSES()
+  readJump:
+    GET_NUMBER_OF_HORSES()
+}
+
+#define macro SET_NUMBER_OF_HORSES() = takes(0) returns(0) {
+  
+}
+
+#define macro GET_NUMBER_OF_HORSES() = takes(0) returns(0) {
+  
+}

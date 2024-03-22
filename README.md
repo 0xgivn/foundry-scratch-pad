@@ -6,6 +6,7 @@ This repo contains various code snippets and concepts. It's purpose is to try th
 
 1. Gas usage for labels
 2. [UniswapV3 clone](https://uniswapv3book.com/milestone_1/introduction.html)
+3. Assembly & Formal Verification [course](https://updraft.cyfrin.io/courses/formal-verification)
 
 # Tests
 
