@@ -5,13 +5,15 @@
 // Be careful to put the executable code and not the contract creation part
 // --bin-runtime - gives just the runtime code!
 
-// send calldata -> function dispatch -> function
 #define function updateHorseNumber(uint256) nonpayable returns()
 #define function readNumberOfHorses() view returns()
 
+#define constant NUMBER_OF_HORSES_SLOT = FREE_STORAGE_POINTER() // assigns the next free storage slot to the constant
+
+// send calldata -> function dispatch -> function
 #define macro MAIN() = takes(0) returns(0) {
-  0x00         // [0]
-  calldataload // [calldata]
+  0x00         // [0] - from what offset to read the calldata
+  calldataload // [calldata] - push all of the calldata on the stack
   // How to get the function selector from the calldata?
   0xe0        // [0xe0, calldata] - push the number of bits we want to remove from calldata
   shr         // [funcSelector]
@@ -40,12 +42,25 @@
     GET_NUMBER_OF_HORSES()
 }
 
+// Example calldata: 0xcdfead2e0000000000000000000000000000000000000000000000000000000000000005
 #define macro SET_NUMBER_OF_HORSES() = takes(0) returns(0) {
-  // 1. Give a storage slot
-  // 2. Get value to store from calldata
+  // 1. Get value to store from calldata
+  0x04 // [0x04] - offset to read the value from calldata (skip func selector)
+  calldataload // [input]
+  // 2. Give a storage slot -  NUMBER_OF_HORSES_SLOT
+  [NUMBER_OF_HORSES_SLOT] // [slot_key, input] - pushes value at slot on the stack
   // 3. call sstore opcode
+  sstore // []
+  stop
 }
 
+// Example calldata: 0xe026c017
 #define macro GET_NUMBER_OF_HORSES() = takes(0) returns(0) {
-  
+  [NUMBER_OF_HORSES_SLOT] // [slot_key]
+  sload  // [value]
+  0x00   // [0x00, value]
+  mstore // []         // Memory: [value]
+
+  0x20 0x00 // [0x20, 0x00] - size and offset - arguments for return
+  return 
 }
