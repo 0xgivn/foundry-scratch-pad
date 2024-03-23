@@ -13,4 +13,4 @@ This repo contains various code snippets, concepts and course exercises. It's pu
 To run only a subset of the tests you can use the following commands:
 - `forge test --mp test/uniswapv3-clone/*` run only tests in a folder
 - `forge test --mc SolidityLabelsTest` run a specific test contract
-- `forge test --mc HorseStore` runs HorseStore v1/v2 tests, check base contracts for more info
+- `forge test --mc HorseStore` runs HorseStore v1/v2 tests, check base contracts for more info. Yul/Huff course [section](https://updraft.cyfrin.io/courses/formal-verification/horse-store/huff-yul-opcode).
