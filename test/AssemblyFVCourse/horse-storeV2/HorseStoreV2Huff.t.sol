@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.23;
 
+// To debug a function call:
+// forge test --debug "testName()" --match-contract HorseStoreHuffV2
+
 import {console} from "forge-std/Test.sol";
 import {HuffDeployer} from "@foundry-huff/HuffDeployer.sol";
 import {BaseTestV2, HorseStore} from "./BaseTestV2.t.sol";
