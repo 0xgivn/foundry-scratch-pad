@@ -27,6 +27,10 @@ They don't work as expected if we try to only import ERC721.huff, this is why we
 // Constants
 #define constant HORSE_HAPPY_IF_FED_WITHIN_CONST = 0x0000000000000000000000000000000000000000000000000000000000015180 // 1 days
 
+#define macro CONSTRUCTOR() = takes (0) returns (0) {
+    ERC721_CONSTRUCTOR()
+}
+
 #define macro MAIN() = takes(0) returns(0) {
   0x00 calldataload 0xe0 shr // [function_selector]
   
