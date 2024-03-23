@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.23;
 
-import {BaseTestV2, HorseStore} from "./BaseTestV2.t.sol";
+import {console} from "forge-std/Test.sol";
 import {HuffDeployer} from "@foundry-huff/HuffDeployer.sol";
+import {BaseTestV2, HorseStore} from "./BaseTestV2.t.sol";
 
 contract HorseStoreHuffV2 is BaseTestV2 {
     string public constant horseStoreLocation = "AssemblyFVCourse/horse-storeV2/HorseStore";
@@ -13,5 +14,7 @@ contract HorseStoreHuffV2 is BaseTestV2 {
                 horseStoreLocation
             )
         );
+        vm.label(address(horseStore), "HorseStore");
+        console.log("HorseStore deployed at address: ", address(horseStore));
     }
 }

@@ -2,7 +2,7 @@
 pragma solidity ^0.8.23;
 
 import {HorseStore} from "@src/AssemblyFVCourse/horse-storeV2/HorseStore.sol";
-import {Test, console2} from "forge-std/Test.sol";
+import {Test, console} from "forge-std/Test.sol";
 
 abstract contract BaseTestV2 is Test {
     HorseStore horseStore;
@@ -10,11 +10,10 @@ abstract contract BaseTestV2 is Test {
     string public constant NFT_NAME = "HorseStore";
     string public constant NFT_SYMBOL = "HS";
 
-    function setUp() public virtual {
-        horseStore = new HorseStore();
-    }
+    function setUp() public virtual {}
 
     function testName() public {
+        console.log("Calling HorseStore at address: ", address(horseStore));
         string memory name = horseStore.name();
         assertEq(name, NFT_NAME);
     }
