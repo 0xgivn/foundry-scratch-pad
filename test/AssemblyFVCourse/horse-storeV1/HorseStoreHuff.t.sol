@@ -10,6 +10,6 @@ contract HorseStoreHuff is BaseTestV1 {
   string public constant HORSE_STORE_LOCATION = "AssemblyFVCourse/horse-storeV1/HorseStore";
 
   function setUp() public override {
-    horseStore = HorseStore(HuffDeployer.config().deploy(HORSE_STORE_LOCATION));
+    horseStore = IHorseStore(HuffDeployer.config().deploy(HORSE_STORE_LOCATION));
   }
 }

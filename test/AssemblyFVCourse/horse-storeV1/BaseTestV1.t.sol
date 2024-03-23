@@ -3,6 +3,7 @@ pragma solidity ^0.8.23;
 
 import "forge-std/Test.sol";
 import "@horse-storeV1/HorseStore.sol";
+import "@horse-storeV1/IHorseStore.sol";
 
 // Contract containing actual tests
 // Child contracts instantiate solc or huff version of the contract
@@ -11,7 +12,7 @@ import "@horse-storeV1/HorseStore.sol";
 // forge test --mc HorseStoreHuff --debug testWriteValue -- runs in debug mode
 abstract contract BaseTestV1 is Test {
   
-  HorseStore public horseStore;
+  IHorseStore public horseStore;
 
   function setUp() virtual public {
     
