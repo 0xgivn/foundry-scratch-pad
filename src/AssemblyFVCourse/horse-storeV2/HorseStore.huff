@@ -2,7 +2,18 @@
 // to compile run: huffc src/AssemblyFVCourse/horse-storeV2/HorseStore.huff -b 
 // --bin-runtime - gives just the runtime code!
 
-#include "@huffmate/data-structures/Hashmap.huff"
+/*
+
+Include works as simple string replace, so we need to drop duplicating includes.
+
+// #include "@huffmate/data-structures/Hashmap.huff"
+// #include "@huffmate/utils/CommonErrors.huff"
+// #include "@huffmate/auth/NonPayable.huff"
+
+*/
+
+
+#include "@huffmate/tokens/ERC721.huff"
 
 /* HorseStore interface */
 #define function mintHorse() nonpayable returns()
@@ -13,6 +24,7 @@
 
 // Storage slots
 #define constant HORSE_FED_TIMESTAMP_LOCATION = FREE_STORAGE_POINTER() // Storage slot for mapping
+#define constant TOTAL_SUPPLY = FREE_STORAGE_POINTER() // Storage slot for total supply
 
 // Constants
 #define constant HORSE_HAPPY_IF_FED_WITHIN_CONST = 0x0000000000000000000000000000000000000000000000000000000000015180 // 1 days
@@ -39,6 +51,18 @@
 }
 
 #define macro MINT_HORSE() = takes(0) returns(0) {
+  [TOTAL_SUPPLY] // [totalSupply_slot]
+  sload          // [totalSupply_value]
+  dup1           // [totalSupply_value, totalSupply_value]
+  caller         // [msg.sender, totalSupply_value, totalSupply_value]
+  _MINT()        // [totalSupply_value] -- takes 2, returns 0, see impl in ERC721.huff
+
+  // Increment total supply
+  0x01           // [0x01, totalSupply_value]
+  add            // [totalSupply_value + 1]
+  [TOTAL_SUPPLY] // [totalSupply_slot, totalSupply_value + 1]
+  sstore         // []
+  stop
 }
 
 // calldata: 0xfunc_selector uint256 horseId
