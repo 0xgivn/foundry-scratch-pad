@@ -4,21 +4,11 @@ This repo contains various code snippets, concepts and course exercises. It's pu
 
 # Contents
 
-### Gas usage for labels
-Location `src/SolidityLabels.sol`.
-
-Compares how labels affect gas usage.
-
-### UniswapV3 Clone
-
-Location `src/uniswapv3-clone`.
-
-Simplified version of Uniswap V3, follows this [guide](https://uniswapv3book.com/milestone_1/introduction.html).
-
-### Assembly & Formal Verification
-Location `src/AssemblyFVCourse`; `lib/2-math-master-audit`.
-
-Cyfrin Updraft course for learning Huff/Yul, EVM opcodes and formal verification.
+| Project                        | Location                                          | Description                               |
+|--------------------------------|---------------------------------------------------|-------------------------------------------|
+| Gas usage for labels           | `src/SolidityLabels.sol`                          | Compares how labels affect gas usage.     |
+| UniswapV3 Clone                | `src/uniswapv3-clone`                             | Simplified version of Uniswap V3, follows this [guide](https://uniswapv3book.com/milestone_1/introduction.html). |
+| Assembly & Formal Verification | `src/AssemblyFVCourse`; `lib/2-math-master-audit` | Cyfrin Updraft course for learning Huff/Yul, EVM opcodes and formal verification. |
 
 # Tests
 
