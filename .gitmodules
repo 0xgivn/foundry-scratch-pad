@@ -13,3 +13,6 @@
 [submodule "lib/2-math-master-audit"]
 	path = lib/2-math-master-audit
 	url = https://github.com/Cyfrin/2-math-master-audit
+[submodule "lib/prb-math"]
+	path = lib/prb-math
+	url = https://github.com/PaulRBerg/prb-math

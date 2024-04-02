@@ -6,3 +6,4 @@ forge-std/=lib/forge-std/src/
 @horse-storeV1/=src/AssemblyFVCourse/horse-storeV1/
 @foundry-huff/=lib/foundry-huff/src/
 @huffmate/=lib/huffmate/src/
+@prb-math/=lib/prb-math/src/
