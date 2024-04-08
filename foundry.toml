@@ -13,3 +13,5 @@ optimizer_runs = 20_000
 
 [fuzz]
 runs = 100000
+# How many times vm.assume can reject value before test is considered a failure
+# max_test_rejects = 1000000
