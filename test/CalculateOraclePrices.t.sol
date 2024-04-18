@@ -33,8 +33,24 @@ contract CalculateOraclePrices is Test {
     uint256 price = 297_183_734_925; // price with 8 decimals $2,971.84
     uint256 oracleDecimals = 8;
     
-    uint256 usdValue = stETH * price * 1e18 / 10**oracleDecimals / 10**stETHDecimals;
+    // uint256 usdValue = stETH * price * 1e18 / 10**oracleDecimals / 10**stETHDecimals;
+    sl.log("stETH amount: ", stETH);
+    sl.log("oracle price: ", price, 8);
 
+    uint256 priceMulStETH = price * stETH; // 18 + 8 = 26 decimals
+    sl.log("stETH * price: ", priceMulStETH);
+
+    uint256 incrDecimals = priceMulStETH * 1e18; // 26 + 18 = 44 decimals
+    sl.log("stETH * price * 1e18: ", incrDecimals);
+
+    uint256 adjustForOracleDecimals = incrDecimals / 10**oracleDecimals; // 44 - 8 = 36 decimals
+    sl.log("stETH * price * 1e18 / 10**oracleDecimals: ", adjustForOracleDecimals);
+
+    uint256 adjustForSTETHDecimals = adjustForOracleDecimals / 10**stETHDecimals; // 36 - 18 = 18 decimals
+    sl.log("stETH * price * 1e18 / 10**oracleDecimals / 10**stETHDecimals: ", adjustForSTETHDecimals);
+
+
+    uint256 usdValue = adjustForSTETHDecimals;
     sl.log("usdValue of stETH is: ", usdValue);
 
   }
