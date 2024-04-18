@@ -16,3 +16,6 @@
 [submodule "lib/prb-math"]
 	path = lib/prb-math
 	url = https://github.com/PaulRBerg/prb-math
+[submodule "lib/solc-log"]
+	path = lib/solc-log
+	url = https://github.com/georgiIvanov/solc-log
