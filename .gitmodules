@@ -19,3 +19,6 @@
 [submodule "lib/solc-log"]
 	path = lib/solc-log
 	url = https://github.com/georgiIvanov/solc-log
+[submodule "lib/solmate"]
+	path = lib/solmate
+	url = https://github.com/transmissions11/solmate
