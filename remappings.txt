@@ -8,3 +8,4 @@ forge-std/=lib/forge-std/src/
 @huffmate/=lib/huffmate/src/
 @prb-math/=lib/prb-math/src/
 @solc-log/=lib/solc-log/src/
+@solmate/=lib/solmate/src/

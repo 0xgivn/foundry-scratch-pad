@@ -3,10 +3,11 @@ pragma solidity ^0.8.23;
 
 import {Test, console2} from "forge-std/Test.sol";
 import {sl} from "@solc-log/sl.sol";
-
+import {FixedPointMathLib} from "@solmate/utils/FixedPointMathLib.sol";
 
 // Logs examples of calculations with various decimal places.
 contract CalculateOraclePrices is Test {
+  using FixedPointMathLib for uint;
 
   function testLogDifferentLiteralsFor1Ether() public {
     sl.log("1e18    : ", 1e18);
@@ -23,7 +24,6 @@ contract CalculateOraclePrices is Test {
     uint256 usdValue = asset * price * 1e18 / 10**oracleDecimals / 10**assetDecimals;
 
     sl.log("usdValue of ETH is: ", usdValue);
-
   }
 
   function testCalculateSTETHwithChainlinkOracle() public {
