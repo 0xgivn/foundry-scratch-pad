@@ -34,22 +34,27 @@ contract StaticCallRevert is Test {
     assembly {
       result := mload(add(data, 32))
     }
-    console2.log("Result of noStateChange: ", result);
-    console2.log("Gas left after noStateChange static call: ", gasleft());
+    console2.log("Result of noStateChange: ", result);                       // data is uint256(7)
+    console2.log("Gas left after noStateChange static call: ", gasleft());   // normal gas consumption
 
     
     // Example 2: Use case of static call to a function that changes state
     fnCall = abi.encodeWithSelector(DeFiContract.stateChange.selector);
     (success, data) = address(defiContract).staticcall(fnCall);
-    console2.log("stateChange static call success: ", success);
-    // 1/64 th of the gas is left, all else is consumed
-    console2.log("Gas left after stateChange static call: ", gasleft());
+    console2.log("stateChange static call success: ", success);              // success false
+    console2.log("Gas left after stateChange static call: ", gasleft());     // 1/64 th of the gas is left, all else is consumed
 
     
     // Example 3: Static call to an invalid address
     (success, data) = address(makeAddr("someAddress")).staticcall(fnCall);
-    console2.log("Invalid address static call success: ", success);
-    console2.logBytes(data);
+    console2.log("Invalid address static call success: ", success);          // success true
+    console2.logBytes(data);                                                 // 0x empty data
     console2.log("Gas left after invalid address static call: ", gasleft()); // normal gas consumption
+
+    // Example 4: Static call to non-existing function
+    fnCall = abi.encodeWithSignature("someFunction");
+    (success, data) = address(defiContract).staticcall(fnCall);
+    console2.log("Non-existing fn static call success: ", success);          // success false
+    console2.log("Gas left after non-existing fn static call: ", gasleft()); // normal gas consumption
   }
 }
