@@ -31,14 +31,13 @@ contract StaticCallRevert is Test {
     assertTrue(success);
     assertEq(data.length, 32);
     uint256 result;
-    
     assembly {
       result := mload(add(data, 32))
     }
-
     console2.log("Result of noStateChange: ", result);
     console2.log("Gas left after noStateChange static call: ", gasleft());
 
+    
     // Example 2: Use case of static call to a function that changes state
     fnCall = abi.encodeWithSelector(DeFiContract.stateChange.selector);
     (success, data) = address(defiContract).staticcall(fnCall);
@@ -46,6 +45,11 @@ contract StaticCallRevert is Test {
     // 1/64 th of the gas is left, all else is consumed
     console2.log("Gas left after stateChange static call: ", gasleft());
 
-
+    
+    // Example 3: Static call to an invalid address
+    (success, data) = address(makeAddr("someAddress")).staticcall(fnCall);
+    console2.log("Invalid address static call success: ", success);
+    console2.logBytes(data);
+    console2.log("Gas left after invalid address static call: ", gasleft()); // normal gas consumption
   }
 }
