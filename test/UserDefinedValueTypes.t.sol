@@ -11,6 +11,7 @@ import {sl} from "@solc-log/sl.sol";
 //
 // In the following test demonstrates how unsafe code can run without any indications of something going wrong
 // and how it can be refactored to prevent issues at compile time.
+// Solidity docs: https://soliditylang.org/blog/2021/09/27/user-defined-value-types/
 contract UserDefinedValueTypes is Test {
   type Gross is int256;
 
