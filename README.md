@@ -9,6 +9,7 @@ This repo contains various code snippets, concepts and course exercises. It's pu
 | Gas usage for labels           | `src/SolidityLabels.sol`                          | Compares how labels affect gas usage.     |
 | UniswapV3 Clone                | `src/uniswapv3-clone`                             | Simplified version of Uniswap V3, follows this [guide](https://uniswapv3book.com/milestone_1/introduction.html). |
 | Assembly & Formal Verification | `src/AssemblyFVCourse`; `lib/2-math-master-audit` | Cyfrin Updraft course for learning Huff/Yul, EVM opcodes and formal verification. |
+| User Defined Value Types | `test/UserDefinedValueTypes.t.sol` | Examples on how to create user defined value types and prevent common mistakes that are hard to detect. |
 
 # Tests
 

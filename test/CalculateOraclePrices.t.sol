@@ -9,13 +9,13 @@ import {FixedPointMathLib} from "@solmate/utils/FixedPointMathLib.sol";
 contract CalculateOraclePrices is Test {
   using FixedPointMathLib for uint;
 
-  function testLogDifferentLiteralsFor1Ether() public {
+  function testLogDifferentLiteralsFor1Ether() public pure {
     sl.log("1e18    : ", 1e18);
     sl.log("1 ether : ", 1 ether);
     sl.log("10**18  : ", 10**18);
   }
 
-  function testCalculateETHValueInUSDFromOraclePrice() public {
+  function testCalculateETHValueInUSDFromOraclePrice() public pure {
     uint256 asset = 15 ether;
     uint256 assetDecimals = 18;
     uint256 price = 2975_400_000; // price with 6 decimals $2,975.40
@@ -26,7 +26,7 @@ contract CalculateOraclePrices is Test {
     sl.log("usdValue of ETH is: ", usdValue);
   }
 
-  function testCalculateSTETHwithChainlinkOracle() public {
+  function testCalculateSTETHwithChainlinkOracle() public pure {
     //https://etherscan.io/address/0xCfE54B5cD566aB89272946F602D76Ea879CAb4a8#readContract - 
     uint256 stETH = 15 ether;
     uint256 stETHDecimals = 18;
