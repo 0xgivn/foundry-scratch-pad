@@ -44,8 +44,7 @@ contract UserDefinedValueTypes is Test {
   function calculateNetValueSafe(Gross grossValue, int256 taxPercentageWAD) public pure returns (int256 netValue) {
     // require(taxPercentageWAD <= 1 ether); ---> run-time check - costlier than compile-time one, which we get for free
     int256 taxedAmount = Gross.unwrap(grossValue) * taxPercentageWAD / 1 ether;
-    netValue = Gross
-    .unwrap(grossValue) - taxedAmount;
+    netValue = Gross.unwrap(grossValue) - taxedAmount;
   }
   
   //// Not good example, because operation is commutative - WIP
