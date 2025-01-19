@@ -22,7 +22,7 @@ contract CalculateOraclePrices is Test {
     uint256 oracleDecimals = 6;
     
     uint256 usdValue = asset * price * 1e18 / 10**oracleDecimals / 10**assetDecimals;
-
+    // equation: 44631 = 15 * 2975,4
     sl.log("usdValue of ETH is: ", usdValue);
   }
 
