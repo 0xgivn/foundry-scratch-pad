@@ -12,8 +12,9 @@
   "solidity.defaultCompiler": "remote",
   "[solidity]": {
     "editor.defaultFormatter": "JuanBlanco.solidity"
+    // "editor.defaultFormatter": "tintinweb.solidity-visual-auditor"
   },
-  "solidity.compileUsingRemoteVersion": "v0.8.24+commit.e11b9ed9",
+  "solidity.compileUsingRemoteVersion": "v0.8.28+commit.7893614a",
   "solidity-metrics.file.exclusions.glob": "{**/node_modules,**/lib*,**/test*,**/cache,**/out/}",
   "solidity.formatter": "forge"
 }
