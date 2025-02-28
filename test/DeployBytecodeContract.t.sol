@@ -13,7 +13,6 @@ contract SimpleContract {
     function setValue(uint256 _value) external {  value = _value; }
 }
 
-
 contract CFactory {
     function createContract(bytes memory bytecode) external returns (address newContract) {
         require(bytecode.length != 0, "Bytecode cannot be empty");
