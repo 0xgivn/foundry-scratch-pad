@@ -8,7 +8,7 @@ import {sl} from "@solc-log/sl.sol";
 contract Casting is Test {
   
   /// forge test --mt testCastBytes -vv
-  function testCastBytes() public {
+  function testCastBytes() pure public {
     // Data with 4 bytes pattern containing index values
     console2.log("Original data");
     bytes32 data = 0xDEADBEE100000001DEADBEE200000002DEADBEE300000003DEADBEE400000004;
@@ -36,7 +36,7 @@ contract Casting is Test {
     // notice which bits were removed - higher order!
     uint8 smaller = uint8(val);
     
-    sl.logAsBin("uint8: ", smaller);
+    sl.logAsBin("uint8:      ", smaller);
     assertEq(smaller, 241);
 
     // upcasting can be implicit
@@ -44,5 +44,8 @@ contract Casting is Test {
     uint16 bigger = smaller;
     sl.logAsBin("implicit upcast to uint16: ", bigger);
     console2.log("bigger as number:         ", bigger);
+
+    console2.log("\nCast uint16 to bytes2, log as bytes16");
+    console2.logBytes16(bytes2(val));
   }
 }
